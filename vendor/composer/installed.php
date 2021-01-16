@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '66f0d3763fdaff267c0746082f576833e0aa2c9f',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -173,196 +173,196 @@
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/broadcasting' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/bus' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/cache' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/config' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/console' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/container' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/contracts' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/cookie' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/database' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/encryption' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/events' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/filesystem' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/hashing' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/http' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/log' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/mail' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/notifications' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/pagination' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/pipeline' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/queue' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/redis' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/routing' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/session' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/support' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/translation' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/validation' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'illuminate/view' => 
     array (
       'replaced' => 
       array (
-        0 => 'v6.20.9',
+        0 => 'v6.20.12',
       ),
     ),
     'intervention/image' => 
@@ -419,30 +419,30 @@
     ),
     'laravel/framework' => 
     array (
-      'pretty_version' => 'v6.20.9',
-      'version' => '6.20.9.0',
+      'pretty_version' => 'v6.20.12',
+      'version' => '6.20.12.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4686f22eaaddca3fd71f99290e833413cfcf8f4c',
+      'reference' => '49f9db00a754517f07d365ee5b0806df82e37029',
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '66f0d3763fdaff267c0746082f576833e0aa2c9f',
     ),
     'laravel/scout' => 
     array (
-      'pretty_version' => 'v8.5.3',
-      'version' => '8.5.3.0',
+      'pretty_version' => 'v8.5.4',
+      'version' => '8.5.4.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3cb9a6e66f58f61ed1adf66c138034e496c60d3f',
+      'reference' => 'bcc1ee3837d1384a200acc5ade75e312d6ededd6',
     ),
     'laravel/tinker' => 
     array (
@@ -675,12 +675,12 @@
     ),
     'phpunit/phpunit' => 
     array (
-      'pretty_version' => '9.5.0',
-      'version' => '9.5.0.0',
+      'pretty_version' => '9.5.1',
+      'version' => '9.5.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8e16c225d57c3d6808014df6b1dd7598d0a5bbbe',
+      'reference' => 'e7bdf4085de85a825f4424eae52c99a1cec2f360',
     ),
     'psr/container' => 
     array (
@@ -929,12 +929,12 @@
     ),
     'swiftmailer/swiftmailer' => 
     array (
-      'pretty_version' => 'v6.2.4',
-      'version' => '6.2.4.0',
+      'pretty_version' => 'v6.2.5',
+      'version' => '6.2.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e',
+      'reference' => '698a6a9f54d7eb321274de3ad19863802c879fb7',
     ),
     'symfony/console' => 
     array (
