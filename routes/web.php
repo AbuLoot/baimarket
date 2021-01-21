@@ -74,26 +74,18 @@ Route::group(['prefix' => '{lang}'], function () {
     Route::post('send-app', 'InputController@sendApp');
     Route::post('filter-products', 'InputController@filterProducts');
 
-    // User Profile
-    Route::group(['middleware' => 'auth', 'role:user'], function() {
-
-        Route::get('profile', 'ProfileController@profile');
-        Route::get('profile/edit', 'ProfileController@editProfile');
-        Route::post('profile', 'ProfileController@updateProfile');
-        Route::get('orders', 'ProfileController@myOrders');
-    });
+    // Cart Actions
+    Route::get('cart', 'CartController@cart');
+    Route::get('checkout', 'CartController@checkout');
+    Route::get('add-to-cart/{id}', 'CartController@addToCart');
+    Route::get('remove-from-cart/{id}', 'CartController@removeFromCart'); // Ajax
+    Route::get('clear-cart', 'CartController@clearCart');
+    Route::post('store-order', 'CartController@storeOrder');
+    Route::get('destroy-from-cart/{id}', 'CartController@destroy'); // Get method
 
     // Comments
     Route::post('review', 'CommentController@saveReview');
     Route::post('comment', 'CommentController@saveComment');
-
-    // Cart Actions
-    Route::get('cart', 'CartController@cart');
-    Route::get('add-to-cart/{id}', 'CartController@addToCart');
-    Route::get('remove-from-cart/{id}', 'CartController@removeFromCart');
-    Route::get('clear-cart', 'CartController@clearCart');
-    Route::post('store-order', 'CartController@storeOrder');
-    Route::get('destroy-from-cart/{id}', 'CartController@destroy');
 
     // Favourite Actions
     Route::get('favorite', 'FavouriteController@getFavorite');

@@ -12,7 +12,6 @@
           <td>№</td>
           <td>Имя</td>
           <td>Email</td>
-          <td>Мои компании</td>
           <td>Номер телефона</td>
           <td>Город</td>
           <td>Гос. номер</td>
@@ -28,18 +27,11 @@
             <td>{{ $i++ }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
-            <td>
-              @if($user->companies->isNotEmpty())
-                @foreach($user->companies as $company)
-                  {{ $company->title }}<br>
-                @endforeach
-              @endif
-            </td>
             <td>{{ ($user->profile) ? $user->profile->phone : '' }}</td>
             <td>
               <?php
                 $region = \App\Region::find(($user->profile) ? $user->profile->region_id : 0);
-                if ($region) echo $region->title;
+                if ($region) { echo $region->title; }
               ?>
             </td>
             <td>{{ ($user->privilege) ? $user->privilege->gov_number : '' }}</td>

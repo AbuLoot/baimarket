@@ -8,7 +8,7 @@
         <div class="col-md-12">
           @include('partials.alerts')
           <p class="text-right">
-            <a href="/{{ $lang }}/admin/tags/create" class="btn btn-success btn-sm">Добавить</a>
+            <a href="/{{ $lang }}/admin/tags/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
           </p>
           <div class="table-responsive">
             <table class="table-admin table table-striped table-condensed">

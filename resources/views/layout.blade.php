@@ -37,7 +37,13 @@
   <link rel="stylesheet" href="/assets/css/style.min.css"> -->
 </head>
 <body>
-
+  <?php
+    $contacts = $section->firstWhere('slug', 'contacts');
+    $data_phones = unserialize($contacts->data_1);
+    $phones = explode('/', $data_phones['value']);
+    $data_email = unserialize($contacts->data_2);
+    $data_address = unserialize($contacts->data_3);
+  ?>
   <header class="header-section d-lg-block d-none">
 
     <div class="header-center">
@@ -151,13 +157,13 @@
               <!-- Mobile Actions -->
               <ul class="mobile-action-icon">
                 <li class="mobile-action-icon-item">
-                  <a href="/favorite" class="mobile-action-icon-link">
+                  <a href="/{{ $lang }}/favorite" class="mobile-action-icon-link">
                     <i class="icon-heart"></i>
                     <span class="mobile-action-icon-item-count" id="count-favorite">{{ (is_array($favorite)) ? count($favorite['products_id']) : 0 }}</span>
                   </a>
                 </li>
                 <li class="mobile-action-icon-item">
-                  <a href="/cart" class="mobile-action-icon-link">
+                  <a href="/{{ $lang }}/cart" class="mobile-action-icon-link">
                     <i class="icon-shopping-cart"></i>
                     <span class="mobile-action-icon-item-count" id="count-items">{{ (is_array($items)) ? count($items['products_id']) : 0 }}</span>
                   </a>
@@ -209,6 +215,36 @@
   <!-- Content -->
   @yield('content')
 
+  <!-- Widget contact buttons -->
+  <div class="material-button-anim">
+    <ul class="list-inline" id="options">
+      <li class="option">
+        <button class="material-button option2 bg-whatsapp" type="button">
+          <a href="whatsapp://send?phone={{ $phones[0] }}" target="_blank">
+            <!-- <span class="fa fa-whatsapp" aria-hidden="true"></span> -->
+            <img src="/img/whatsapp.png">
+          </a>
+        </button>
+      </li>
+      <li class="option">
+        <button class="material-button option3 bg-ripple" type="button">
+          <a href="tel:{{ $phones[0] }}" target="_blank"><span class="fa fa-phone" aria-hidden="true"></span></a>
+        </button>
+      </li>
+      <li class="option">
+        <button class="material-button option4" type="button">
+          <a href="mailto:{{ $data_email['value'] }}" target="_blank"><span class="fa fa-envelope" aria-hidden="true"></span></a>
+        </button>
+      </li>
+    </ul>
+    <button class="material-button material-button-toggle btnBg" type="button">
+      <span class="fa fa-user" aria-hidden="true"></span>
+      <span class="ripple btnBg"></span>
+      <span class="ripple btnBg"></span>
+      <span class="ripple btnBg"></span>
+    </button>
+  </div>
+
   <!-- ...:::: Start Footer Section:::... -->
   <footer class="footer-section section-top-gap-100">
     <!-- Start Footer Top Area -->
@@ -220,16 +256,15 @@
               <!-- Logo Header -->
               <div class="header-logo">
                 <a href="/"><img src="/img/logo-baimarket.png"></a>
-              </div>
+              </div><br>
               <div class="footer-contact">
-                <p>We are a team of designers and developers that create high quality Magento, Prestashop, Opencart...</p>
                 <div class="customer-support">
                   <div class="customer-support-icon">
                     <img src="/assets/images/icon/support-icon.png" alt="">
                   </div>
                   <div class="customer-support-text">
-                    <span>Customer Support</span>
-                    <a class="customer-support-text-phone" href="tel:(08)123456789">(08) 123 456 789</a>
+                    <span>Номера телефонов</span>
+                    <a class="customer-support-text-phone" href="tel:{{ $phones[0] }}">{{ $phones[0] }}</a>
                   </div>
                 </div>
               </div>
@@ -286,7 +321,7 @@
   </footer>
 
   <!-- material-scrolltop button -->
-  <button class="material-scrolltop" type="button"></button>
+  <!-- <button class="material-scrolltop" type="button"></button> -->
 
   <!-- ::::::::::::::All JS Files here :::::::::::::: -->
   <!-- Global Vendor, plugins JS -->

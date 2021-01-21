@@ -46,7 +46,7 @@
           @endforeach
         </ul>
       </div>
-      <a href="/{{ $lang }}/admin/products/create" class="btn btn-success btn-sm">Добавить</a>
+      <a href="/{{ $lang }}/admin/products/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
     </div>
   </div>
 

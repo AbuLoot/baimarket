@@ -38,30 +38,32 @@
   @endif
 
   <!-- Banner-->
-  <div class="banner-section section-top-gap-100">
-    <!-- Start Banner Wrapper -->
-    <div class="banner-wrapper">
-      <div class="container">
-        <div class="row">
-          @foreach($discount_categories as $discount_category)
-            <div class="col-lg-4 col-md-6 col-12">
-              <!-- Start Banner Single -->
-              <div class="banner-single">
-                <a href="/{{ $lang.'/'.$discount_category->slug .'/c-'. $discount_category->id }}" class="banner-img-link">
-                  <img class="banner-img" src="/file-manager/{{ $discount_category->image }}" alt="{{ $discount_category->title }}">
-                </a>
-                <div class="banner-content">
-                  <span class="banner-text-tiny">{{ $discount_category->title }}</span>
-                  <h3 class="banner-text-large">{{ $discount_category->title_extra }}</h3>
-                  <a href="/{{ $lang.'/'.$discount_category->slug .'/c-'. $discount_category->id }}" class="banner-link">Посмотреть</a>
+  @if($discount_categories->isNotEmpty())
+    <div class="banner-section section-top-gap-100">
+      <!-- Start Banner Wrapper -->
+      <div class="banner-wrapper">
+        <div class="container">
+          <div class="row">
+            @foreach($discount_categories as $discount_category)
+              <div class="col-lg-4 col-md-6 col-12">
+                <!-- Start Banner Single -->
+                <div class="banner-single">
+                  <a href="/{{ $lang.'/'.$discount_category->slug .'/c-'. $discount_category->id }}" class="banner-img-link">
+                    <img class="banner-img" src="/file-manager/{{ $discount_category->image }}" alt="{{ $discount_category->title }}">
+                  </a>
+                  <div class="banner-content">
+                    <span class="banner-text-tiny">{{ $discount_category->title }}</span>
+                    <h3 class="banner-text-large">{{ $discount_category->title_extra }}</h3>
+                    <a href="/{{ $lang.'/'.$discount_category->slug .'/c-'. $discount_category->id }}" class="banner-link">Посмотреть</a>
+                  </div>
                 </div>
               </div>
-            </div>
-          @endforeach
+            @endforeach
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  @endif
 
   <!-- Product Tab-->
   <div class="product-tab-section section-top-gap-100">
@@ -99,7 +101,7 @@
                   </button>
 
                   @if (is_array($items) AND isset($items['products_id'][$top_product->id]))
-                    <a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
+                    <a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
                   @else
                     <button class="btn-add-to-cart" type="button" data-product-id="{{ $top_product->id }}" onclick="addToCart(this);" title="Добавить в корзину"><i class="icon-shopping-cart"></i> В корзину</button>
                   @endif
@@ -164,7 +166,7 @@
     <div class="product-tab-wrapper">
       <div class="container">
         <div class="row no-gutters">
-          @foreach($mode_new->products->where('status', 1)->take(0) as $new_product)
+          @foreach($mode_new->products->where('status', 1)->take(8) as $new_product)
             <?php $product_lang = $new_product->products_lang->where('lang', $lang)->first(); ?>
             <div class="col-xl-3 col-sm-6 col-6">
               <div class="border-around">
@@ -185,7 +187,7 @@
                   </button>
 
                   @if (is_array($items) AND isset($items['products_id'][$new_product->id]))
-                    <a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
+                    <a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
                   @else
                     <button class="btn-add-to-cart" type="button" data-product-id="{{ $new_product->id }}" onclick="addToCart(this);" title="Добавить в корзину"><i class="icon-shopping-cart"></i> В корзину</button>
                   @endif
@@ -249,7 +251,7 @@
         dataType: "json",
         data: {},
         success: function(data) {
-          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
+          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
           $('#count-items').text(data.countItems);
           alert('Товар добавлен в корзину');
         }

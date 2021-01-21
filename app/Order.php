@@ -20,6 +20,6 @@ class Order extends Model
 
     public function region()
     {
-        return $this->belongsTo('App\City', 'region_id');
+        return $this->belongsTo('App\Region', 'region_id');
     }
 }

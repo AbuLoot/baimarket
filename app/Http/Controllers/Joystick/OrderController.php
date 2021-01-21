@@ -42,15 +42,15 @@ class OrderController extends Controller
         ]);
 
         $order = Order::findOrFail($id);
-        // $order->name = $request->name;
-        // $order->email = $request->email;
-        // $order->phone = $request->phone;
+        $order->name = $request->surname.' '.$request->name;
+        $order->email = $request->email;
+        $order->phone = $request->phone;
         $order->company_name = $request->company_name;
         $order->data_1 = $request->data_1;
         $order->data_2 = $request->data_2;
         $order->data_3 = $request->data_3;
         $order->legal_address = $request->legal_address;
-        $order->city_id = ($request->city_id) ? $request->city_id : 0;
+        $order->region_id = ($request->region_id) ? $request->region_id : 0;
         $order->address = $request->address;
         $order->delivery = $request->delivery;
         $order->payment_type = $request->payment_type;

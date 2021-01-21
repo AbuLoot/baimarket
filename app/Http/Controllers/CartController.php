@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Product;
-use App\Country;
+use App\Region;
 use App\Order;
 
 use Auth;
@@ -15,8 +15,6 @@ class CartController extends Controller
 {
     public function cart(Request $request)
     {
-        $countries = Country::all();
-
         if ($request->session()->has('items')) {
 
             $items = $request->session()->get('items');
@@ -27,12 +25,24 @@ class CartController extends Controller
             $products = collect();
         }
 
-        return view('cart', compact('products', 'countries'));
+        return view('cart', compact('products'));
+    }
+
+    public function checkout(Request $request)
+    {
+        $regions = Region::all();
+
+        $items = $request->session()->get('items');
+        $data_id = collect($items['products_id']);
+        $products = Product::whereIn('id', $data_id->keys())->get();
+
+        return view('checkout', compact('regions', 'products'));
     }
 
     public function addToCart(Request $request, $lang, $id)
     {
         $product = Product::findOrFail($id);
+        $product_lang = $product->products_lang->where('lang', $lang)->first();
 
         if ($request->session()->has('items')) {
 
@@ -40,30 +50,36 @@ class CartController extends Controller
             $quantity = (isset($request->quantity)) ? $request->quantity : 1;
 
             $items['products_id'][$id] = [
-                'id' => $id, 'quantity' => $quantity, 'slug' => $product->slug, 'title' => $product->title, 'img_path' => $product->path.'/'.$product->image, 'price' => $product->price,
+                'id' => $id, 'quantity' => $quantity, 'slug' => $product->slug, 'title' => $product_lang['title'], 'img_path' => $product->path.'/'.$product->image, 'price' => $product_lang['price'],
             ];
 
-            $count = count($items['products_id']);
-
             $request->session()->put('items', $items);
+            $count = count($items['products_id']);
+            $sum_price_items = 0;
+
+            foreach ($items['products_id'] as $item) {
+                $sum_price_item = $item['price'] * $item['quantity'];
+                $sum_price_items += $sum_price_item;
+            }
 
             return response()->json([
-                'alert' => 'Товар обновлен', 'countItems' => $count, 'quantity' => $request->quantity, 'slug' => $product->slug, 'title' => $product->title, 'img_path' => $product->path.'/'.$product->image, 'price' => $product->price,
+                'alert' => 'Товар обновлен', 'countItems' => $count, 'sumPriceItems' => $sum_price_items, 'quantity' => $request->quantity, 'slug' => $product->slug, 'title' => $product_lang['title'], 'img_path' => $product->path.'/'.$product->image, 'price' => $product_lang['price'],
             ]);
         }
 
         $items = [];
         $items['products_id'][$id] = [
-            'id' => $id, 'quantity' => 1, 'slug' => $product->slug, 'title' => $product->title, 'img_path' => $product->path.'/'.$product->image, 'price' => $product->price,
+            'id' => $id, 'quantity' => 1, 'slug' => $product->slug, 'title' => $product_lang['title'], 'img_path' => $product->path.'/'.$product->image, 'price' => $product_lang['price'],
         ];
 
         $request->session()->put('items', $items);
 
         return response()->json([
-            'alert' => 'Товар обновлен', 'countItems' => 1, 'slug' => $product->slug, 'title' => $product->title, 'img_path' => $product->path.'/'.$product->image, 'price' => $product->price,
+            'alert' => 'Товар обновлен', 'countItems' => 1, 'slug' => $product->slug, 'title' => $product_lang['title'], 'img_path' => $product->path.'/'.$product->image, 'price' => $product_lang['price'],
         ]);
     }
 
+    // Ajax removing item from cart
     public function removeFromCart(Request $request, $lang, $id)
     {
         $items = $request->session()->get('items');
@@ -89,32 +105,34 @@ class CartController extends Controller
         return redirect('/');
     }
 
-    public function storeOrder(Request $request)
+    public function storeOrder(Request $request, $lang)
     {
         $this->validate($request, [
             'surname' => 'required|min:2|max:255',
             'name' => 'required|min:2|max:255',
-            'email' => 'required|email|max:255',
+            // 'email' => 'required|email|max:255',
             'phone' => 'required|min:5',
-            'city_id' => 'numeric',
+            'region_id' => 'numeric',
             'address' => 'required',
+            'count' => 'required',
         ]);
 
         $items = $request->session()->get('items');
         $data_id = collect($items['products_id']);
         $products = Product::whereIn('id', $data_id->keys())->get();
 
-        $sumCountProducts = 0;
-        $sumPriceProducts = 0;
+        $sum_count_products = 0;
+        $sum_price_products = 0;
 
         foreach ($products as $product) {
-            $sumCountProducts += $request->count[$product->id];
-            $sumPriceProducts += $request->count[$product->id] * $product->price;
+            // $product_lang = $product->products_lang->where('lang', $lang)->first();
+            // $sum_count_products += $items['products_id'][$product->id]['quantity'];
+            $sum_price_products += $items['products_id'][$product->id]['quantity'] * $items['products_id'][$product->id]['price'];
         }
 
         $order = new Order;
         $order->user_id = ((Auth::check())) ? Auth::id() : 0;
-        $order->name = $request->name;
+        $order->name = $request->surname.' '.$request->name;
         $order->phone = $request->phone;
         $order->email = $request->email;
         $order->company_name = $request->company_name;
@@ -122,13 +140,13 @@ class CartController extends Controller
         $order->data_2 = $request->postcode;
         $order->data_3 = '';
         $order->legal_address = '';
-        $order->city_id = ($request->city_id) ? $request->city_id : 0;
+        $order->region_id = ($request->region_id) ? $request->region_id : 0;
         $order->address = $request->address;
         $order->count = serialize($request->count);
         $order->price = $products->sum('price');
-        $order->amount = $sumPriceProducts;
-        $order->delivery = $request->get;
-        $order->payment_type = $request->pay;
+        $order->amount = $sum_price_products;
+        $order->delivery = 1;
+        $order->payment_type = 1;
         $order->save();
 
         $order->products()->attach($data_id->keys());
@@ -136,9 +154,9 @@ class CartController extends Controller
         $name = $request->name;
 
         // Email subject
-        $subject = "Kezer - Новая заявка от $request->name";
+        $subject = "Baimarket - Новая заявка от $request->name";
 
-        $headers = "From: info@kezer.kz \r\n" .
+        $headers = "From: info@baimarket.kz \r\n" .
                    "MIME-Version: 1.0" . "\r\n" . 
                    "Content-type: text/html; charset=UTF-8" . "\r\n";
 
@@ -151,13 +169,13 @@ class CartController extends Controller
             $message = 'Ваш заказ принят!';
 
             // Mail::send('vendor.mail.html.layout', ['order' => $order], function($message) use ($name) {
-            //     $message->to(['abdulaziz.abishov@gmail.com', 'issayev.adilet@gmail.com'], 'Kezer')->subject('Kezer - Новый заказ от '.$name);
+            //     $message->to(['abdulaziz.abishov@gmail.com', 'issayev.adilet@gmail.com'], 'Baimarket')->subject('Baimarket - Новый заказ от '.$name);
             //     $message->from('electron.servant@gmail.com', 'Electron Servant');
             // });
 
             $response = view('partials.mail-client-order', ['order' => $order])->render();
 
-            mail($order->email, 'Kezer - ваш заказ: '.$order->id, $response, $headers);
+            mail($order->email, 'Baimarket - ваш заказ: '.$order->id, $response, $headers);
 
         } catch (Exception $e) {
 
@@ -167,11 +185,12 @@ class CartController extends Controller
 
         $request->session()->forget('items');
 
-        return redirect()->back()->with([
+        return redirect($lang.'/cart')->with([
             'info' => $message
         ]);
     }
 
+    // Get method removing item from cart
     public function destroy(Request $request, $lang, $id)
     {
         $items = $request->session()->get('items');
@@ -184,6 +203,6 @@ class CartController extends Controller
             $request->session()->put('items', $items);
         }
 
-        return redirect('cart');
+        return redirect($lang.'/cart');
     }
 }

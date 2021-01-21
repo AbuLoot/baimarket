@@ -14429,6 +14429,7 @@ Components - Form
   font-size: 16px;
 }
 .default-form-box input[type=text],
+.default-form-box input[type=tel],
 .default-form-box input[type=email],
 .default-form-box input[type=password],
 .default-form-box input[type=number],
@@ -16045,7 +16046,8 @@ Pages - Product Details
   text-transform: capitalize;
 }
 
-.product-add-to-cart-btn a {
+.product-add-to-cart-btn a,
+.product-add-to-cart-btn button {
   display: inline-block;
   font-size: 16px;
   margin-left: 20px;
@@ -16061,16 +16063,19 @@ Pages - Product Details
   font-weight: 500;
 }
 @media (min-width: 768px) {
-  .product-add-to-cart-btn a {
+  .product-add-to-cart-btn a,
+  .product-add-to-cart-btn button {
     min-width: 200px;
   }
 }
 @media (min-width: 992px) {
-  .product-add-to-cart-btn a {
+  .product-add-to-cart-btn a,
+  .product-add-to-cart-btn button {
     min-width: 270px;
   }
 }
-.product-add-to-cart-btn a:hover {
+.product-add-to-cart-btn a:hover,
+.product-add-to-cart-btn button:hover {
   background: #666;
 }
 
@@ -17980,7 +17985,7 @@ Layout - Footer
   width: 0;
   height: 0;
   bottom: 23px;
-  right: 23px;
+  left: 23px;
   padding: 0;
   overflow: hidden;
   outline: none;

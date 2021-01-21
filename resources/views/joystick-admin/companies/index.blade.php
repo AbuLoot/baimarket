@@ -17,7 +17,7 @@
         @endforeach
       </ul>
     </div>
-    <a href="/{{ $lang }}/admin/companies/create" class="btn btn-success btn-sm">Добавить</a>
+    <a href="/{{ $lang }}/admin/companies/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
   </div><br>
   <div class="table-responsive">
     <table class="table table-striped table-condensed">

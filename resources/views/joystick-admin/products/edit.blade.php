@@ -69,7 +69,7 @@
         </div>
         <div class="form-group">
           <label for="meta_description">Мета описание</label>
-          <input type="text" class="form-control" id="meta_description" name="meta_description" maxlength="255" value="{{ (old('meta_description')) ? old('meta_description') : $product_lang->meta_description }}">
+          <input type="text" class="form-control" id="meta_description" name="meta_description" maxlength="255" value="{{ (old('meta_description')) ? old('meta_description') : $product_lang->meta_description }}" required>
         </div>
         <div class="form-group">
           <label for="description">Описание</label>
@@ -77,33 +77,16 @@
         </div>
         <div class="form-group">
           <label for="characteristic">Характеристика</label>
-          <input type="text" class="form-control" id="characteristic" name="characteristic" minlength="2" maxlength="80" value="{{ (old('characteristic')) ? old('characteristic') : $product_lang->characteristic }}">
+          <input type="text" class="form-control" id="characteristic" name="characteristic" minlength="2" value="{{ (old('characteristic')) ? old('characteristic') : $product_lang->characteristic }}">
         </div>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="price">Цена за кв. м.</label>
               <div class="input-group">
-                <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : $product_lang->price }}">
+                <input type="text" class="form-control" id="price" name="price" maxlength="10" value="{{ (old('price')) ? old('price') : $product_lang->price }}" required>
                 <div class="input-group-addon">{{ $currency->symbol }}</div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="region_id">Регион</label>
-              <select id="region_id" name="region_id" class="form-control" required>
-                <option value=""></option>
-                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $product) { ?>
-                  <?php foreach ($nodes as $node) : ?>
-                    <?php if ($node->id == $product->region_id) : ?>
-                      <option value="{{ $node->id }}" selected>{{ PHP_EOL.$prefix.' '.$node->title }}</option>
-                    <?php else: ?>
-                      <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
-                    <?php endif; ?>
-                    <?php $traverse($node->children, $prefix.'___'); ?>
-                  <?php endforeach; ?>
-                <?php }; ?>
-                <?php $traverse($regions); ?>
-              </select>
             </div>
             <div class="form-group">
               <label for="lang">Язык</label>
@@ -290,15 +273,15 @@
     function addFileinput(i) {
       var fileinput =
         '<div class="col-md-4 col-xs-12 fileinput fileinput-new" data-provides="fileinput">' +
-        '<div class="fileinput-preview thumbnail" style="width:100%;height:200px;" data-trigger="fileinput"></div>' +
-        '<div>' +
-        '<span class="btn btn-default btn-sm btn-file">' +
-        '<span class="fileinput-new"><i class="glyphicon glyphicon-folder-open"></i>&nbsp; Выбрать</span>' +
-        '<span class="fileinput-exists"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;</span>' +
-        '<input type="file" name="images[]" accept="image/*">' +
-        '</span>' +
-        '<a href="#" class="btn btn-default btn-sm fileinput-exists" data-dismiss="fileinput"><i class="glyphicon glyphicon-trash"></i> Удалить</a>' +
-        '</div>' +
+          '<div class="fileinput-preview thumbnail" style="width:100%;height:200px;" data-trigger="fileinput"></div>' +
+          '<div>' +
+            '<span class="btn btn-default btn-sm btn-file">' +
+            '<span class="fileinput-new"><i class="glyphicon glyphicon-folder-open"></i>&nbsp; Выбрать</span>' +
+            '<span class="fileinput-exists"><i class="glyphicon glyphicon-folder-open"></i>&nbsp;</span>' +
+              '<input type="file" name="images[]" accept="image/*">' +
+            '</span>' +
+            '<a href="#" class="btn btn-default btn-sm fileinput-exists" data-dismiss="fileinput"><i class="glyphicon glyphicon-trash"></i> Удалить</a>' +
+          '</div>' +
         '</div>';
 
       $('#gallery').append(fileinput);

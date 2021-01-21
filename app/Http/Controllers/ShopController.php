@@ -117,6 +117,7 @@ class ShopController extends Controller
             ->whereIn('category_id', $ids)
             ->where('products.status', '<>', 0)
             ->distinct()
+            ->orderBy('id', 'asc')
             ->get();
 
         $grouped = $options->groupBy('data');

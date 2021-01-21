@@ -41,11 +41,11 @@
         </div>
         <div class="form-group">
           <label for="meta_title">Мета заголовок</label>
-          <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="255" value="{{ (old('meta_title')) ? old('meta_title') : '' }}">
+          <input type="text" class="form-control" id="meta_title" name="meta_title" maxlength="255" value="{{ (old('meta_title')) ? old('meta_title') : '' }}" required>
         </div>
         <div class="form-group">
           <label for="meta_description">Мета описание</label>
-          <input type="text" class="form-control" id="meta_description" name="meta_description" maxlength="255" value="{{ (old('meta_description')) ? old('meta_description') : '' }}">
+          <input type="text" class="form-control" id="meta_description" name="meta_description" maxlength="255" value="{{ (old('meta_description')) ? old('meta_description') : '' }}" required>
         </div>
         <div class="form-group">
           <label for="description">Описание</label>
@@ -60,22 +60,9 @@
             <div class="form-group">
               <label for="price_total">Цена</label>
               <div class="input-group">
-                <input type="text" class="form-control" id="price_total" name="price_total" maxlength="10" value="{{ (old('price_total')) ? old('price_total') : '' }}">
+                <input type="text" class="form-control" id="price_total" name="price_total" maxlength="10" value="{{ (old('price_total')) ? old('price_total') : '' }}" required>
                 <div class="input-group-addon">{{ $currency->symbol }}</div>
               </div>
-            </div>
-            <div class="form-group">
-              <label for="region_id">Регион</label>
-              <select id="region_id" name="region_id" class="form-control" required>
-                <option value=""></option>
-                <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
-                  <?php foreach ($nodes as $node) : ?>
-                    <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
-                    <?php $traverse($node->children, $prefix.'___'); ?>
-                  <?php endforeach; ?>
-                <?php }; ?>
-                <?php $traverse($regions); ?>
-              </select>
             </div>
             <div class="form-group">
               <label for="lang">Язык</label>

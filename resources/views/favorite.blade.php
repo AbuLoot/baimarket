@@ -45,7 +45,7 @@
                 </button>
 
                 @if (is_array($items) AND isset($items['products_id'][$product->id]))
-                  <a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
+                  <a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
                 @else
                   <button class="btn-add-to-cart" type="button" data-product-id="{{ $product->id }}" onclick="addToCart(this);" title="Добавить в корзину"><i class="icon-shopping-cart"></i> В корзину</button>
                 @endif
@@ -71,7 +71,7 @@
         dataType: "json",
         data: {},
         success: function(data) {
-          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
+          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
           $('#count-items').text(data.countItems);
           alert('Товар добавлен в корзину');
         }

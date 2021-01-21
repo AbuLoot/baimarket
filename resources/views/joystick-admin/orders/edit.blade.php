@@ -42,19 +42,15 @@
     </div>
     <div class="form-group">
       <label for="countries">Страны</label>
-      <select id="city_id" name="city_id" class="form-control">
+      <select id="region_id" name="region_id" class="form-control">
         <option value=""></option>
-        @foreach($countries as $country)
-          <optgroup label="{{ $country->title }}">
-            @foreach($country->cities as $city)
-              @if($city->id == $order->city->id)
-                <option value="{{ $city->id }}" selected>{{ $city->title }}</option>
-              @else
-                <option value="{{ $city->id }}">{{ $city->title }}</option>
-              @endif
-            @endforeach
-          </optgroup>
-        @endforeach
+        <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $order) { ?>
+          <?php foreach ($nodes as $node) : ?>
+            <option value="{{ $node->id }}" @if($node->id == $order->region_id) selected @endif>{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+            <?php $traverse($node->children, $prefix.'___'); ?>
+          <?php endforeach; ?>
+        <?php }; ?>
+        <?php $traverse($regions); ?>
       </select>
     </div>
     <div class="form-group">
@@ -67,16 +63,17 @@
     </div>
     <div class="form-group">
       <label for="count">Количество товаров</label><br>
-      <?php $countAllProducts = unserialize($order->count); ?>
+      <?php $count_all_products = unserialize($order->count); ?>
       <?php $i = 0; $c = 0; ?>
-      @foreach ($countAllProducts as $id => $countProduct)
-        @if ($order->products[$i]->id == $id)
-          <img src="/img/products/{{ $order->products[$i]->path.'/'.$order->products[$i]->image }}" style="width:80px;height:80px;">
-          {{ $countProduct . ' шт. ' }} <a href="/goods/{{ $order->products[$i]->id.'/'.$order->products[$i]->slug }}">{{ $order->products[$i]->title }}</a><br><br>
+      @foreach ($count_all_products as $id => $count_product)
+        <?php $order_product_lang = $order->products[$i]->products_lang->where('lang', $lang)->first(); ?>
+        @if ($id == $order->products[$i]['id'])
+          <img src="/img/products/{{ $order->products[$i]['path'].'/'.$order->products[$i]['image'] }}" style="width:80px;height:80px;">
+          {{ $count_product . ' шт. ' }} <a href="/{{ $lang.'/'.Str::limit($order_product_lang->slug, 35).'/'.'p-'.$order->products[$i]['id'] }}">{{ $order_product_lang->title }}</a><br><br>
         @endif
-        <?php $c += $countProduct; ?>
+        <?php $c += $count_product; ?>
         <?php $i++; ?>
-      @endforeach  
+      @endforeach
       <p>Общее количество товаров: {{ $c }} шт.</p>
     </div>
     <div class="form-group">
@@ -89,26 +86,26 @@
     </div>
     <div class="form-group">
       <label for="delivery">Способ доставки:</label>
-      <select id="delivery" name="delivery" class="form-control" required>
-        <option value=""></option>
-        @foreach(trans('orders.get') as $key => $id)
-          @if ($id == $order->delivery)
-            <option value="{{ $key }}" selected>{{ $key }}</option>
+      <select id="delivery" name="delivery" class="form-control">
+        <option value="0"></option>
+        @foreach(trans('orders.get') as $key => $value)
+          @if ($key == $order->delivery)
+            <option value="{{ $key }}" selected>{{ $value['value'] }}</option>
           @else
-            <option value="{{ $key }}">{{ $key }}</option>
+            <option value="{{ $key }}">{{ $value['value'] }}</option>
           @endif
         @endforeach
       </select>
     </div>
     <div class="form-group">
       <label for="payment_type">Способ оплаты:</label>
-      <select id="payment_type" name="payment_type" class="form-control" required>
-        <option value=""></option>
-        @foreach(trans('orders.pay') as $key => $id)
-          @if ($id == $order->payment_type)
-            <option value="{{ $key }}" selected>{{ $key }}</option>
+      <select id="payment_type" name="payment_type" class="form-control">
+        <option value="0"></option>
+        @foreach(trans('orders.pay') as $key => $value)
+          @if ($key == $order->payment_type)
+            <option value="{{ $key }}" selected>{{ $value['value'] }}</option>
           @else
-            <option value="{{ $key }}">{{ $key }}</option>
+            <option value="{{ $key }}">{{ $value['value'] }}</option>
           @endif
         @endforeach
       </select>
@@ -116,7 +113,7 @@
     <div class="form-group">
       <label for="status">Статус:</label>
       <select id="status" name="status" class="form-control" required>
-        <option value=""></option>
+        <option value="0"></option>
         @foreach(trans('orders.statuses') as $key => $title)
           @if ($key == $order->status)
             <option value="{{ $key }}" selected>{{ $title }}</option>

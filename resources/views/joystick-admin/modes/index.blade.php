@@ -6,7 +6,7 @@
 
   @include('joystick-admin.partials.alerts')
   <p class="text-right">
-    <a href="/{{ $lang }}/admin/modes/create" class="btn btn-success btn-sm">Добавить</a>
+    <a href="/{{ $lang }}/admin/modes/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
   </p>
   <div class="table-responsive">
     <table class="table table-striped table-condensed">

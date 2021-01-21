@@ -18,6 +18,7 @@
             <h3 class="breadcrumb-title">{{ $category->title }}: <strong>{{ $category->products->count() }}</strong></h3>
             <div class="breadcrumb-nav">
               <nav aria-label="breadcrumb">
+                <li><a href="/">Главная</a></li>
                 @foreach ($category->ancestors as $ancestor)
                   @unless($ancestor->parent_id != NULL && $ancestor->children->count() > 0)
                     <li class="breadcrumb-item">
@@ -76,7 +77,7 @@
           <div class="shop-sort-section">
             <div class="sort-box d-flex justify-content-between align-items-md-center align-items-start flex-md-row flex-column">
               <div class="sort-select-list">
-                <form action="/catalog/{{ $category->slug }}" method="get" id="filter">
+                <form action="/catalog/{{ $category->slug }}" method="get">
                   <fieldset>
                     <select name="speed" id="speed">
                       @foreach(trans('data.sort_by') as $key => $value)
@@ -96,11 +97,10 @@
           <br>
 
           <div class="sort-product-tab-wrapper">
-            <div class="row no-gutters">
+            <div class="row no-gutters" id="products">
               @foreach($products as $product)
                 <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
                 <div class="col-xl-4 col-sm-6 col-6">
-                  <!-- Start Product Defautlt Single -->
                   <div class="border-around">
                     <div class="product-img-warp">
                       <a href="/{{ $lang.'/'.Str::limit($product_lang['slug'], 35).'/'.'p-'.$product->id }}" class="product-default-img-link">
@@ -117,7 +117,7 @@
                       </button>
 
                       @if (is_array($items) AND isset($items['products_id'][$product->id]))
-                        <a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
+                        <a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
                       @else
                         <button class="btn-add-to-cart" type="button" data-product-id="{{ $product->id }}" onclick="addToCart(this);" title="Добавить в корзину"><i class="icon-shopping-cart"></i> В корзину</button>
                       @endif
@@ -129,17 +129,8 @@
           </div>
 
           <!-- Start Pagination -->
-          {{ $products->links() }}
+          {{ $products->links('partials/pagination-custom') }}
 
-          <div class="page-pagination text-center">
-            <ul>
-              <li><a href="#">Previous</a></li>
-              <li><a class="active" href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">Next</a></li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
@@ -150,6 +141,32 @@
 
 @section('scripts')
   <script>
+    // Filter products
+    $('#filter').on('click', 'input', function(e) {
+      var optionsId = new Array();
+
+      $('input[name="options_id[]"]:checked').each(function() {
+        optionsId.push($(this).val());
+      });
+
+      var page = $(location).attr('href').split('ru')[1];
+      var slug = page.split('?')[0];
+
+      $.ajax({
+        type: 'get',
+        url: '/ru' + slug,
+        dataType: 'json',
+        data: {
+          'options_id': optionsId,
+        },
+        success: function(data) {
+          $('#products').html(data);
+        }
+      });
+    });
+  </script>
+
+  <script type="text/javascript">
     // Add to cart
     function addToCart(i) {
       var productId = $(i).data("product-id");
@@ -160,7 +177,7 @@
         dataType: "json",
         data: {},
         success: function(data) {
-          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
+          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
           $('#count-items').text(data.countItems);
           alert('Товар добавлен в корзину');
         }

@@ -6,6 +6,9 @@
 
 @section('content')
 
+  <?php $items = session('items'); ?>
+  <?php $favorite = session('favorite'); ?>
+
   <!-- ...:::: Start Breadcrumb Section:::... -->
   <div class="breadcrumb-section">
     <div class="breadcrumb-wrapper">
@@ -17,7 +20,7 @@
               <nav aria-label="breadcrumb">
                 <ul>
                   <li><a href="/">Главная</a></li>
-                  <li><a href="/{{ $lang.'/'.$product->category->slug.'/c'.$product->category->id }}">{{ $product->category->title }}</a></li>
+                  <li><a href="/{{ $lang.'/'.$product->category->slug.'/c-'.$product->category->id }}">{{ $product->category->title }}</a></li>
                   <li class="active" aria-current="page">{{ $product_lang->title }}</li>
                 </ul>
               </nav>
@@ -65,6 +68,44 @@
             <div class="product-details-text">
               <h4 class="title">{{ $product_lang->title }}</h4>
               <div class="price">{{ $product_lang->price }}₸</div>
+              <div class="d-flex align-items-center">
+
+                <div class="table_desc">
+                  <div class="table_page table-responsive">
+                    <form action="/{{ $lang }}/add-to-cart/{{ $product->id }}" class="product__options">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td class="product_total">
+                              <div class="variable-single-item">
+                                <span>Количество</span>
+                                <div class="product-variable-quantity">
+                                  <input min="1" max="100" value="1" id="product-quantity" type="number">
+                                </div>
+                              </div>
+                            </td>
+                            <td class="product_remove">
+                              @if (is_array($items) AND isset($items['products_id'][$product->id]))
+                                <a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>
+                              @else
+                                <button class="btn-add-to-cart" type="submit" data-product-id="{{ $product->id }}" onclick="addToCart(this);" title="Добавить в корзину"><i class="icon-shopping-cart"></i> В корзину</button>
+                              @endif
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <br>
+              <p>
+                <button class="btn-add-to-favorite <?php if (is_array($favorite) AND in_array($product->id, $favorite['products_id'])) echo 'color-red'; ?>" type="button" data-favourite-id="{{ $product->id }}" onclick="toggleFavourite(this);">
+                  <i class="icon-heart"></i> В избранные
+                </button>
+              </p>
+
               {!! $product_lang->characteristic !!}
             </div>
           </div>
@@ -158,14 +199,15 @@
     // Add to cart
     function addToCart(i) {
       var productId = $(i).data("product-id");
+      var quantity = $('#product-quantity').val();
 
       $.ajax({
         type: "get",
-        url: '/add-to-cart/'+productId,
+        url: '/{{ $lang }}/add-to-cart/'+productId,
         dataType: "json",
-        data: {},
+        data: {'quantity': quantity},
         success: function(data) {
-          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
+          $('*[data-product-id="'+productId+'"]').replaceWith('<a href="/{{ $lang }}/cart" class="btn-go-to-cart"><i class="icon-shopping-cart"></i> Оформить</a>');
           $('#count-items').text(data.countItems);
           alert('Товар добавлен в корзину');
         }
@@ -178,7 +220,7 @@
 
       $.ajax({
         type: "get",
-        url: '/toggle-favourite/'+productId,
+        url: '/{{ $lang }}/toggle-favourite/'+productId,
         dataType: "json",
         data: {},
         success: function(data) {

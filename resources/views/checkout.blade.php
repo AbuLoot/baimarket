@@ -11,16 +11,7 @@
       <div class="container">
         <div class="row">
           <div class="col-12 d-flex justify-content-between justify-content-md-between  align-items-center flex-md-row flex-column">
-            <h3 class="breadcrumb-title">Checkout</h3>
-            <div class="breadcrumb-nav">
-              <nav aria-label="breadcrumb">
-                <ul>
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
-                  <li class="active" aria-current="page">Checkout</li>
-                </ul>
-              </nav>
-            </div>
+            <h3 class="breadcrumb-title">Оформление заказа</h3>
           </div>
         </div>
       </div>
@@ -29,311 +20,123 @@
 
   <div class="checkout_section">
     <div class="container">
-      <div class="row">
-        <!-- User Quick Action Form -->
-        <div class="col-12">
-          <div class="user-actions accordion" data-aos="fade-up"  data-aos-delay="0">
-            <h3>
-              <i class="fa fa-file-o" aria-hidden="true"></i>
-              Returning customer?
-              <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_login" aria-expanded="true">Click here to login</a>
-            </h3>
-            <div id="checkout_login" class="collapse" data-parent="#checkout_login">
-              <div class="checkout_info">
-                <p>If you have shopped with us before, please enter your details in the boxes below. If you are a new customer please proceed to the Billing &amp; Shipping section.</p>
-                <form action="#">
-                  <div class="form_group default-form-box">
-                    <label>Username or email <span>*</span></label>
-                    <input type="text">
-                  </div>
-                  <div class="form_group default-form-box">
-                    <label>Password <span>*</span></label>
-                    <input type="password">
-                  </div>
-                  <div class="form_group group_3 default-form-box">
-                    <button type="submit">Login</button>
-                    <label class="checkbox-default">
-                      <input type="checkbox">
-                      <span>Remember me</span>
-                    </label>
-                  </div>
-                  <a href="#">Lost your password?</a>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="user-actions accordion" data-aos="fade-up"  data-aos-delay="200">
-            <h3>
-              <i class="fa fa-file-o" aria-hidden="true"></i>
-              Returning customer?
-              <a class="Returning" href="#" data-toggle="collapse" data-target="#checkout_coupon" aria-expanded="true">Click here to enter your code</a>
 
-            </h3>
-            <div id="checkout_coupon" class="collapse" data-parent="#checkout_coupon">
-              <div class="checkout_info">
-                <form action="#">
-                  <input placeholder="Coupon code" type="text">
-                  <button type="submit">Apply coupon</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- User Quick Action Form -->
-      </div>
-      <!-- Start User Details Checkout Form -->
-      <div class="checkout_form" data-aos="fade-up"  data-aos-delay="400">
-        <div class="row">
-          <div class="col-lg-6 col-md-6">
-            <form action="#">
-              <h3>Billing Details</h3>
+      @include('partials.alerts')
+
+      <div class="checkout_form">
+        <form action="/{{ $lang }}/store-order" method="post">
+          @csrf
+          <div class="row">
+            <div class="col-lg-6 col-md-6">
+              <h3>Данные покупателя</h3>
               <div class="row">
                 <div class="col-lg-6 mb-20">
                   <div class="default-form-box">
-                    <label>First Name <span>*</span></label>
-                    <input type="text">
+                    <label>Фамилия <span>*</span></label>
+                    <input type="text" minlength="2" maxlength="60" name="surname" placeholder="Фамилия*" value="{{ old('surname') }}" required>
                   </div>
                 </div>
                 <div class="col-lg-6 mb-20">
                   <div class="default-form-box">
-                    <label>Last Name <span>*</span></label>
-                    <input type="text">
+                    <label>Имя <span>*</span></label>
+                      <input type="text" minlength="2" maxlength="40" name="name" placeholder="Имя*" value="{{ old('name') }}" required>
                   </div>
                 </div>
                 <div class="col-12 mb-20">
                   <div class="default-form-box">
-                    <label>Company Name</label>
-                    <input type="text">
+                    <label>Имя компании</label>
+                    <input type="text" name="company_name" value="{{ old('company_name') }}">
                   </div>
                 </div>
                 <div class="col-12 mb-20">
                   <div class="default-form-box">
-                    <label for="country">country <span>*</span></label>
-                    <select class="country_option nice-select wide" name="country" id="country">
-                      <option value="2">Bangladesh</option>
-                      <option value="3">Algeria</option>
-                      <option value="4">Afghanistan</option>
-                      <option value="5">Ghana</option>
-                      <option value="6">Albania</option>
-                      <option value="7">Bahrain</option>
-                      <option value="8">Colombia</option>
-                      <option value="9">Dominican Republic</option>
+                    <label for="region_id">Регион <span>*</span></label>
+                    <select class="country_option nice-select wide" name="region_id" id="region_id">
+                      <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
+                        <?php foreach ($nodes as $node) : ?>
+                          <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+                          <?php $traverse($node->children, $prefix.'___'); ?>
+                        <?php endforeach; ?>
+                      <?php }; ?>
+                      <?php $traverse($regions); ?>
                     </select>
                   </div>
                 </div>
                 <div class="col-12 mb-20">
                   <div class="default-form-box">
-                    <label>Street address <span>*</span></label>
-                    <input placeholder="House number and street name" type="text">
-                  </div>
-                </div>
-                <div class="col-12 mb-20">
-                  <div class="default-form-box">
-                    <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                  </div>
-                </div>
-                <div class="col-12 mb-20">
-                  <div class="default-form-box">
-                    <label>Town / City <span>*</span></label>
-                    <input type="text">
-                  </div>
-                </div>
-                <div class="col-12 mb-20">
-                  <div class="default-form-box">
-                    <label>State / County <span>*</span></label>
-                    <input type="text">
+                    <label>Адрес улицы <span>*</span></label>
+                    <input type="text" name="address" placeholder="Регион, город, улица, дом..." value="{{ old('phone') }}" required>
                   </div>
                 </div>
                 <div class="col-lg-6 mb-20">
                   <div class="default-form-box">
-                    <label>Phone<span>*</span></label>
-                    <input type="text">
+                    <label>Номер телефона<span>*</span></label>
+                    <input type="tel" pattern="(\+?\d[- .]*){7,13}" name="phone" placeholder="Номер телефона*" value="{{ old('phone') }}" required>
                   </div>
                 </div>
                 <div class="col-lg-6 mb-20">
                   <div class="default-form-box">
-                    <label> Email Address <span>*</span></label>
-                    <input type="text">
-                  </div>
-                </div>
-                <div class="col-12">
-                  <label class="checkbox-default" for="newAccount" data-toggle="collapse" data-target="#newAccountPassword">
-                    <input type="checkbox" id="newAccount">
-                    <span>Create an account?</span>
-                  </label>
-                  <div id="newAccountPassword" class="collapse" data-parent="#newAccountPassword">
-                    <div class="card-body1 default-form-box">
-                      <label> Account password <span>*</span></label>
-                      <input placeholder="password" type="password">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-12 mb-20">
-                  <label class="checkbox-default" for="newShipping" data-toggle="collapse" data-target="#anotherShipping">
-                    <input type="checkbox" id="newShipping">
-                    <span>Ship to a different address?</span>
-                  </label>
-
-                  <div id="anotherShipping" class="collapse" data-parent="#anotherShipping">
-                    <div class="row">
-                      <div class="col-lg-6 mb-20">
-                        <div class="default-form-box">
-                          <label>First Name <span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-lg-6 mb-20">
-                        <div class="default-form-box">
-                          <label>Last Name <span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-12 mb-20">
-                        <div class="default-form-box">
-                          <label>Company Name</label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-12 mb-20">
-                        <div class="select_form_select default-form-box">
-                          <label for="countru_name">country <span>*</span></label>
-                          <select class="niceselect_option wide" name="cuntry" id="countru_name">
-                            <option value="2">Bangladesh</option>
-                            <option value="3">Algeria</option>
-                            <option value="4">Afghanistan</option>
-                            <option value="5">Ghana</option>
-                            <option value="6">Albania</option>
-                            <option value="7">Bahrain</option>
-                            <option value="8">Colombia</option>
-                            <option value="9">Dominican Republic</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="col-12 mb-20">
-                        <div class="default-form-box">
-                          <label>Street address <span>*</span></label>
-                          <input placeholder="House number and street name" type="text">
-                        </div>
-                      </div>
-                      <div class="col-12 mb-20">
-                        <div class="default-form-box">
-                          <input placeholder="Apartment, suite, unit etc. (optional)" type="text">
-                        </div>
-                      </div>
-                      <div class="col-12 mb-20">
-                        <div class="default-form-box">
-                          <label>Town / City <span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-12 mb-20">
-                        <div class="default-form-box">
-                          <label>State / County <span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-lg-6 mb-20">
-                        <div class="default-form-box">
-                          <label>Phone<span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                      <div class="col-lg-6">
-                        <div class="default-form-box">
-                          <label> Email Address <span>*</span></label>
-                          <input type="text">
-                        </div>
-                      </div>
-                    </div>
+                    <label>Email почта</label>
+                    <input type="email" name="email" id="email" placeholder="bake_make@gmail.com" value="{{ old('email') }}">
                   </div>
                 </div>
                 <div class="col-12">
                   <div class="order-notes">
-                    <label for="order_note">Order Notes</label>
-                    <textarea id="order_note" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                    <label for="order_note">Комментарии к заказу</label>
+                    <textarea id="order_note" name="notes" placeholder="Дополнительная информация"></textarea>
                   </div>
                 </div>
               </div>
-            </form>
-          </div>
-          <div class="col-lg-6 col-md-6">
-            <form action="#">
-              <h3>Your order</h3>
-              <div class="order_table table-responsive">
+            </div>
+            <div class="col-lg-6 col-md-6">
+              <h3>Ваш заказ</h3>
+              <div class="order_table">
                 <table>
                   <thead>
                     <tr>
-                      <th>Product</th>
-                      <th>Total</th>
+                      <th>Продукт</th>
+                      <th>Итог</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td> Handbag fringilla <strong> × 2</strong></td>
-                      <td> $165.00</td>
-                    </tr>
-                    <tr>
-                      <td> Handbag justo <strong> × 2</strong></td>
-                      <td> $50.00</td>
-                    </tr>
-                    <tr>
-                      <td> Handbag elit <strong> × 2</strong></td>
-                      <td> $50.00</td>
-                    </tr>
-                    <tr>
-                      <td> Handbag Rutrum <strong> × 1</strong></td>
-                      <td> $50.00</td>
-                    </tr>
+                    <?php $sum_total = 0; $sum_pr?>
+                    <?php $items = session('items'); ?>
+                    @foreach ($products as $product)
+                      <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>
+                      <?php $quantity = $items['products_id'][$product->id]['quantity']; ?>
+                      <?php $sum_total += $product_lang['price'] * $quantity; ?>
+                      <tr>
+                        <td>
+                          <input type="hidden" name="count[{{ $product->id }}]" value="{{ $quantity }}">
+                          {{ $product_lang['title'] }} <strong> × {{ $quantity }}</strong>
+                        </td>
+                        <td><?php echo $product_lang['price'] * $quantity; ?>₸</td>
+                      </tr>
+                    @endforeach
                   </tbody>
                   <tfoot>
-                    <tr>
-                      <th>Cart Subtotal</th>
-                      <td>$215.00</td>
-                    </tr>
-                    <tr>
-                      <th>Shipping</th>
-                      <td><strong>$5.00</strong></td>
-                    </tr>
                     <tr class="order_total">
-                      <th>Order Total</th>
-                      <td><strong>$220.00</strong></td>
+                      <th>Общая сумма</th>
+                      <td><strong>{{ $sum_total }}₸</strong></td>
                     </tr>
                   </tfoot>
                 </table>
               </div>
               <div class="payment_method">
-                <div class="panel-default">
-                  <label class="checkbox-default" for="currencyCod" data-toggle="collapse" data-target="#methodCod">
-                    <input type="checkbox" id="currencyCod">
-                    <span>Cash on Delivery</span>
+                <h4>Способ оплаты:</h4>
+                @foreach(trans('orders.pay') as $id => $item)
+                  <label class="radio-inline">
+                    <input type="radio" name="pay" value="{{ $id }}" @if($id == 2) checked @endif> {{ $item['value'] }}
                   </label>
-
-                  <div id="methodCod" class="collapse" data-parent="#methodCod">
-                    <div class="card-body1">
-                      <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="panel-default">
-                  <label class="checkbox-default" for="currencyPaypal" data-toggle="collapse" data-target="#methodPaypal">
-                    <input type="checkbox" id="currencyPaypal">
-                    <span>PayPal</span>
-                  </label>
-                  <div id="methodPaypal" class="collapse " data-parent="#methodPaypal">
-                    <div class="card-body1">
-                      <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal account.</p>
-                    </div>
-                  </div>
-                </div>
+                @endforeach
                 <div class="order_button pt-15">
-                  <button type="submit">Proceed to PayPal</button>
+                  <button type="submit">Оформить заказ</button>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
-      </div> <!-- Start User Details Checkout Form -->
+        </form>
+      </div>
     </div>
   </div>
 

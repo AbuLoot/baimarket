@@ -4,7 +4,7 @@
   <h2 class="page-header">Страницы</h2>
 
   <p class="text-right">
-    <a href="/{{ $lang }}/admin/pages/create" class="btn btn-success btn-sm">Добавить</a>
+    <a href="/{{ $lang }}/admin/pages/create" class="btn btn-success"><i class="material-icons md-18">add</i></a>
   </p>
 
   @include('joystick-admin.partials.alerts')
