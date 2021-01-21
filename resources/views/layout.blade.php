@@ -8,7 +8,8 @@
   <meta name="author" content="issayev.adilet@gmail.com">
 
   <!-- ::::::::::::::Favicon icon::::::::::::::-->
-  <link rel="shortcut icon" href="/assets/images/favicon.ico" type="image/png">
+  <link rel="icon" href="/img/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/img/favicon.png" type="image/png">
 
   <!-- ::::::::::::::All CSS Files here :::::::::::::: -->
   <!-- Vendor CSS -->
