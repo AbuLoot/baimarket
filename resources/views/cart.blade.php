@@ -50,8 +50,8 @@
                     <td class="product_quantity">
                       <label>Кол.</label>
                       <div class="input-group">
-                        <button class="btn btn-outline-secondary" type="button"onclick="decrement_quantity('{{ $product->id }}')">-</button>
-                        <input type="text" class="form-control sum-{{ $product->id }}" name="count[{{ $product->id }}]" id="input-quantity-{{ $product->id }}" data-price="{{ $product_lang['price'] }}" size="4" min="1" value="{{ $quantity }}">
+                        <button class="btn btn-outline-secondary" type="button" onclick="decrement_quantity('{{ $product->id }}')">-</button>
+                        <input type="text" class="form-control sum-{{ $product->id }}" oninput="input_quantity('{{ $product->id }}')" name="count[{{ $product->id }}]" id="input-quantity-{{ $product->id }}" data-price="{{ $product_lang['price'] }}" size="4" min="1" value="{{ $quantity }}">
                         <button class="btn btn-outline-secondary" type="button" onclick="increment_quantity('{{ $product->id }}')">+</button>
                       </div>
                     </td>
@@ -116,6 +116,13 @@
       var newQuantity = parseInt($(inputQuantityElement).val()) - 1;
       addToCart(product_id, newQuantity);
     }
+  }
+
+  function input_quantity(product_id) {
+
+    var inputQuantityElement = $("#input-quantity-"+product_id);
+    var newQuantity = parseInt($(inputQuantityElement).val());
+    addToCart(product_id, newQuantity);
   }
 
   function addToCart(product_id, new_quantity) {
