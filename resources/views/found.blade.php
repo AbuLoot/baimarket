@@ -65,18 +65,8 @@
             </div>
           </div>
 
-          {{ $products_lang->links() }}
+          {{ $products_lang->links('partials.pagination-custom') }}
 
-          <!-- Start Pagination -->
-          <div class="page-pagination text-center">
-            <ul>
-              <li><a href="#">Previous</a></li>
-              <li><a class="active" href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">Next</a></li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>
