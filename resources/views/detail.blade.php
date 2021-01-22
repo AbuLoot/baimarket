@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', $product_lang->meta_title)
 
-@endsection
+@section('meta_description', $product_lang->meta_description)
 
 @section('content')
 

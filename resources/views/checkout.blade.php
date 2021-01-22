@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', 'Оформление заказа')
 
-@endsection
+@section('meta_description', 'Оформление заказа')
 
 @section('content')
 
@@ -51,7 +51,7 @@
                 <div class="col-12 mb-20">
                   <div class="default-form-box">
                     <label for="region_id">Регион <span>*</span></label>
-                    <select class="country_option nice-select wide" name="region_id" id="region_id">
+                    <select class="country_option" name="region_id" id="region_id">
                       <?php $traverse = function ($nodes, $prefix = null) use (&$traverse) { ?>
                         <?php foreach ($nodes as $node) : ?>
                           <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>

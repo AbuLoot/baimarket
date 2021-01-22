@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', 'Корзина')
 
-@endsection
+@section('meta_description', 'Корзина')
 
 @section('content')
   <div class="breadcrumb-section">

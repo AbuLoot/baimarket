@@ -232,12 +232,6 @@ class ProductController extends Controller
             $product->path = $dirName;
         }
 
-        // Adding map
-        if (isset($request->latitude) && isset($request->longitude)) {
-            $product->latitude = $request->latitude;
-            $product->longitude = $request->longitude;
-        }
-
         $product->sort_id = ($request->sort_id > 0) ? $request->sort_id : $product->count() + 1;
         $product->company_id = $request->company_id;
         $product->category_id = $request->category_id;

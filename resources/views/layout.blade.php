@@ -20,7 +20,6 @@
   <!-- Plugin CSS -->
   <link rel="stylesheet" href="/assets/css/plugins/slick.css">
   <link rel="stylesheet" href="/assets/css/plugins/animate.min.css">
-  <link rel="stylesheet" href="/assets/css/plugins/nice-select.css">
   <link href="/bower_components/typeahead.js/dist/typeahead.bootstrap.css" rel="stylesheet">
 
   <!-- Main CSS -->
@@ -335,7 +334,6 @@
   <!--Plugins JS-->
   <script src="/assets/js/plugins/slick.min.js"></script>
   <script src="/assets/js/plugins/material-scrolltop.js"></script>
-  <script src="/assets/js/plugins/jquery.nice-select.min.js"></script>
   <script src="/assets/js/plugins/jquery.zoom.min.js"></script>
 
   <!-- Use the minified version files listed below for better performance and remove the files listed above -->

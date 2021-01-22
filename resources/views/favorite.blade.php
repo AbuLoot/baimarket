@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', 'Избранные')
 
-@endsection
+@section('meta_description', 'Избранные')
 
 @section('content')
 

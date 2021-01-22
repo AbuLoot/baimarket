@@ -23,7 +23,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $page = Page::where('slug', 'main')->first();
+        $page = Page::where('slug', '/')->first();
         $slide_items = Slide::where('status', 1)->take(5)->get();
         $mode_top = Mode::where('slug', 'top')->first();
         $mode_new = Mode::where('slug', 'new')->first();

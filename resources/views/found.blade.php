@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', 'Результат по поиску')
 
-@endsection
+@section('meta_description', 'Результат по поиску')
 
 @section('content')
 

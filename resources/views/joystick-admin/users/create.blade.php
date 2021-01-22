@@ -32,7 +32,7 @@
     </div>
     <div class="form-group">
       <label>Номер телефона</label>
-      <input type="tel" pattern="(\+?\d[- .]*){7,13}" class="form-control" name="phone" placeholder="Номер телефона*" value="{{ (old('phone')) ? old('phone') : $user->profile->phone }}" required>
+      <input type="tel" pattern="(\+?\d[- .]*){7,13}" class="form-control" name="phone" placeholder="Номер телефона*" value="{{ (old('phone')) ? old('phone') : '' }}">
     </div>
     <div class="form-group">
       <label>Регион</label>
@@ -40,7 +40,7 @@
         <option value=""></option>
         <?php $traverse = function ($nodes, $prefix = null) use (&$traverse, $user) { ?>
           <?php foreach ($nodes as $node) : ?>
-            <option value="{{ $node->id }}" <?= ($node->id == $user->profile->region_id) ? 'selected' : ''; ?>>{{ PHP_EOL.$prefix.' '.$node->title }}</option>
+            <option value="{{ $node->id }}">{{ PHP_EOL.$prefix.' '.$node->title }}</option>
             <?php $traverse($node->children, $prefix.'___'); ?>s
           <?php endforeach; ?>
         <?php }; ?>
@@ -53,19 +53,19 @@
     </div>
     <div class="form-group">
       <label>Дата рождения</label>
-      <input type="date" class="form-control" name="birthday" minlength="3" maxlength="30" placeholder="Дата рождения" value="{{ (old('birthday')) ? old('birthday') : $user->profile->birthday }}" >
+      <input type="date" class="form-control" name="birthday" minlength="3" maxlength="30" placeholder="Дата рождения" value="{{ (old('birthday')) ? old('birthday') : '' }}" >
     </div>
     <div class="form-group">
       <div><label>Пол</label></div>
       @foreach(trans('data.sex') as $key => $value)
         <label>
-          <input type="radio" name="sex" @if($key == $user->profile->sex) checked="checked" @endif value="{{ $key }}"> {{ $value }}
+          <input type="radio" name="sex" value="{{ $key }}"> {{ $value }}
         </label>
       @endforeach
     </div>
     <div class="form-group">
       <label for="about">О себе</label>
-      <textarea class="form-control" id="about" name="about" rows="5">{{ (old('about')) ? old('about') : $user->profile->about }}</textarea>
+      <textarea class="form-control" id="about" name="about" rows="5">{{ (old('about')) ? old('about') : '' }}</textarea>
     </div>
 
     <div class="form-group">

@@ -19,7 +19,7 @@ class CreateProfilesTable extends Migration
             $table->integer('user_id')->references('id')->on('users');
             $table->integer('region_id')->references('id')->on('regions');
             $table->string('phone')->nullable();
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
             $table->enum('sex', ['man', 'woman']);
             $table->text('about')->nullable();
             $table->integer('status')->default(1);

@@ -14,8 +14,6 @@
           <td>Email</td>
           <td>Номер телефона</td>
           <td>Город</td>
-          <td>Гос. номер</td>
-          <td>Тип карты</td>
           <td>Роль</td>
           <td class="text-right">Функции</td>
         </tr>
@@ -34,8 +32,6 @@
                 if ($region) { echo $region->title; }
               ?>
             </td>
-            <td>{{ ($user->privilege) ? $user->privilege->gov_number : '' }}</td>
-            <td>{{ ($user->privilege) ? $user->privilege->card_type : '' }}</td>
             <td>
               @foreach ($user->roles as $role)
                 {{ $role->name }}<br>

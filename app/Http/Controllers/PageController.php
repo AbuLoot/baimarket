@@ -49,6 +49,6 @@ class PageController extends Controller
     {
         $page = Page::where('slug', 'contacts')->firstOrFail();
 
-        return view('contacts')->with('page', $page);
+        return view('pages.contacts')->with('page', $page);
     }
 }

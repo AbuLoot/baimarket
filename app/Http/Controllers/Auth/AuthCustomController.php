@@ -47,8 +47,6 @@ class AuthCustomController extends Controller
             'name' => 'required|min:2|max:40',
             'email' => 'required|email|max:255|unique:users',
             'phone' => 'required|min:10|max:15|unique:profiles',
-            'gov_number' => 'required|min:4|max:15|unique:privileges',
-            'barcode' => 'required|max:255|unique:privileges',
             // 'sex' => 'required',
             // 'password' => 'required|confirmed|min:6|max:255',
             // 'rules' => 'accepted'
@@ -66,10 +64,6 @@ class AuthCustomController extends Controller
             $role = Role::where('name', 'user')->first();
             $user->roles()->sync($role->id);
 
-            $first_num = substr($request->barcode, 0, 1);
-            $card_type = trans('data.card_types_number.'.$first_num);
-            $card = Card::where('slug', $card_type)->first();
-
             $profile = new Profile;
             $profile->sort_id = $user->id;
             $profile->user_id = $user->id;
@@ -77,16 +71,6 @@ class AuthCustomController extends Controller
             $profile->phone = $request->phone;
             // $profile->sex = $request['sex'];
             $profile->save();
-
-            $privilege = new Privilege;
-            $privilege->user_id = $user->id;
-            $privilege->card_id = $card->id;
-            $privilege->gov_number = $request->gov_number;
-            $privilege->card_type = $card_type;
-            $privilege->barcode = $request->barcode;
-            $privilege->services = $card->service_number;
-            $privilege->status = 0;
-            $privilege->save();
 
             return redirect($lang.'/cs-login-and-register')->withInput()->withInfo('Регистрация успешно завершена. Войдите через email и пароль.');
         }

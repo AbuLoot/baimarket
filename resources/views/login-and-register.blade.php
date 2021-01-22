@@ -1,8 +1,8 @@
 @extends('layout')
 
-@section('head')
+@section('meta_title', 'Регистрация и аутентификация')
 
-@endsection
+@section('meta_description', 'Регистрация и аутентификация')
 
 @section('content')
   <!-- ...:::: Start Breadcrumb Section:::... -->

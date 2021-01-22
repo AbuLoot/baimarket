@@ -7,6 +7,7 @@ use App\Http\Controllers\Joystick\Controller;
 
 use App\User;
 use App\Role;
+use App\Profile;
 use App\Region;
 
 class UserController extends Controller
@@ -24,12 +25,17 @@ class UserController extends Controller
         $regions = Region::orderBy('sort_id')->get()->toTree();
         $roles = Role::all();
 
+        if ($user->profile == null) {
+            return view('joystick-admin.users.create', compact('user', 'regions', 'roles'));
+        }
+
         return view('joystick-admin.users.edit', compact('user', 'regions', 'roles'));
     }
 
     public function update(Request $request, $lang, $id)
     {
         $this->validate($request, [
+            'surname' => 'required|min:2|max:60',
             'name' => 'required|max:60',
             'email' => 'required',
         ]);
@@ -45,29 +51,26 @@ class UserController extends Controller
             $user->roles()->sync($request->roles_id);
         }
 
+        if ($user->profile == null) {
+            $profile = new Profile;
+            $profile->sort_id = $user->id;
+            $profile->user_id = $user->id;
+            $profile->phone = $request->phone;
+            $profile->region_id = $request->region_id;
+            $profile->birthday = $request->birthday;
+            $profile->sex = $request->sex;
+            $profile->about = $request->about;
+            $profile->save();
+
+            return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');
+        }
+
         $user->profile->phone = $request->phone;
         $user->profile->region_id = $request->region_id;
         $user->profile->birthday = $request->birthday;
         $user->profile->sex = $request->sex;
         $user->profile->about = $request->about;
         $user->profile->save();
-
-        $user->privilege->gov_number = $request->gov_number;
-        $user->privilege->card_type = $request->card_type;
-        $user->privilege->barcode = $request->barcode;
-
-        if ($request->privilege_status == 'on') {
-            
-            $date = date('Y-m-d');
-            $term = date('Y-m-d', strtotime($date. ' + 30 days'));
-
-            $user->privilege->term = $term;
-            $user->privilege->status = 1;
-        } else {
-            $user->privilege->status = 0;
-        }
-
-        $user->privilege->save();
 
         return redirect($lang.'/admin/users')->with('status', 'Запись обновлена!');
     }
@@ -77,7 +80,6 @@ class UserController extends Controller
         if (\Auth::user()->can(['delete-role'])) {
             $user = User::find($id);
             $user->profile->delete();
-            $user->privilege->delete();
             $user->delete();
         } else  {
             return redirect()->back()->with('status', 'Ваши права ограничены!');
