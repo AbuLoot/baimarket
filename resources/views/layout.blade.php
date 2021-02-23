@@ -264,7 +264,9 @@
                   </div>
                   <div class="customer-support-text">
                     <span>Номера телефонов</span>
-                    <a class="customer-support-text-phone" href="tel:{{ $phones[0] }}">{{ $phones[0] }}</a>
+                    @foreach ($phones as $phone)
+                      <p><a class="customer-support-text-phone" href="tel:{{ $phone }}">{{ $phone }}</a></p>
+                    @endforeach
                   </div>
                 </div>
               </div>
@@ -368,7 +370,7 @@
             '<li>&nbsp;&nbsp;&nbsp;Ничего не найдено.</li>'
           ],
           suggestion: function (data) {
-            return '<li><a href="/{{ $lang }}/admin/products/' + data.id + '/edit"><img class="list-img" src="/img/products/' + data.path + '/' + data.image + '"> ' + data.title + '<br><span>Код: ' + data.barcode + '</span></a></li>'
+            return '<li><a href="/{{ $lang }}/p/' + data.id + '-' + data.slug + '"><img class="list-img" src="/img/products/' + data.path + '/' + data.image + '"> ' + data.title + '<br><span>Код: ' + data.barcode + '</span></a></li>'
           }
         }
       });

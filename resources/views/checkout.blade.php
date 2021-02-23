@@ -65,7 +65,7 @@
                 <div class="col-12 mb-20">
                   <div class="default-form-box">
                     <label>Адрес улицы <span>*</span></label>
-                    <input type="text" name="address" placeholder="Регион, город, улица, дом..." value="{{ old('phone') }}" required>
+                    <input type="text" name="address" placeholder="Город, улица, дом..." value="{{ old('address') }}" required>
                   </div>
                 </div>
                 <div class="col-lg-6 mb-20">
@@ -95,11 +95,11 @@
                   <thead>
                     <tr>
                       <th>Продукт</th>
-                      <th>Итог</th>
+                      <th>Итого</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <?php $sum_total = 0; $sum_pr?>
+                    <?php $sum_total = 0;?>
                     <?php $items = session('items'); ?>
                     @foreach ($products as $product)
                       <?php $product_lang = $product->products_lang->where('lang', $lang)->first(); ?>

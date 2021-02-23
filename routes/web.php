@@ -31,8 +31,8 @@ Route::group(['prefix' => '{lang}/admin', 'middleware' => ['auth']], function ()
     Route::get('categories-actions', 'Joystick\CategoryController@actionCategories');
     Route::get('companies-actions', 'Joystick\CompanyController@actionCompanies');
 
-    Route::get('products-actions', 'Joystick\ProductController@actionProducts');
     Route::get('products-search', 'Joystick\ProductController@search');
+    Route::get('products-actions', 'Joystick\ProductController@actionProducts');
     Route::get('products-category/{id}', 'Joystick\ProductController@categoryProducts');
     Route::get('products/{id}/comments', 'Joystick\ProductController@comments');
     Route::get('products/{id}/destroy-comment', 'Joystick\ProductController@destroyComment');

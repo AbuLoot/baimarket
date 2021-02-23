@@ -45,11 +45,11 @@
                     <b>Для региона: {{ $order->region->title }}</b><br>
                     <b>Дата заказа: {{ $order->created_at }}</b><br>
                     <b>Товары:<br>
-                      <?php $countAllProducts = unserialize($order->count); $i = 0; ?>
-                      @foreach ($countAllProducts as $id => $countProduct)
+                      <?php $count_all_products = unserialize($order->count); $i = 0; ?>
+                      @foreach ($count_all_products as $id => $count_product)
                         <?php $order_product_lang = $order->products[$i]->products_lang->where('lang', $lang)->first(); ?>
                         @if (isset($order->products[$i]) AND $order->products[$i]->id == $id)
-                          {{ $countProduct . ' шт. ' . $order_product_lang->title  }}<br>
+                          {{ $count_product . ' шт. ' . $order_product_lang->title  }}<br>
                         @endif
                         <?php $i++; ?>
                       @endforeach
