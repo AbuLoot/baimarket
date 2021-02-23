@@ -17801,7 +17801,7 @@ Layout - Footer
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  display: none;
+  /*display: none;*/
 }
 @media (min-width: 992px) {
   .customer-support {
