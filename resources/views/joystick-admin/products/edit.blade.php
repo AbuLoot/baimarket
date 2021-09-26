@@ -1,28 +1,5 @@
 @extends('joystick-admin.layout')
 
-@section('head')
-  <link href="/joystick/css/jasny-bootstrap.min.css" rel="stylesheet">
-  <script src='//cdn.tinymce.com/4.9/tinymce.min.js'></script>
-  <script>
-    tinymce.init({
-      selector: 'textarea',
-      height: 300,
-      theme: 'modern',
-      plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
-      toolbar1: 'code undo redo | formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-      image_advtab: true,
-      templates: [
-        { title: 'Test template 1', content: 'Test 1' },
-        { title: 'Test template 2', content: 'Test 2' }
-      ],
-      content_css: [
-        // '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-        // '//www.tinymce.com/css/codepen.min.css'
-      ]
-    });
-  </script>
-@endsection
-
 @section('content')
   <h2 class="page-header">Редактирование</h2>
 
@@ -73,7 +50,7 @@
         </div>
         <div class="form-group">
           <label for="description">Описание</label>
-          <textarea class="form-control" name="description" rows="5" maxlength="2000">{{ (old('description')) ? old('description') : $product_lang->description }}</textarea>
+          <textarea class="form-control" id="summernote" name="description" rows="5" maxlength="2000">{{ (old('description')) ? old('description') : $product_lang->description }}</textarea>
         </div>
         <div class="form-group">
           <label for="characteristic">Характеристика</label>
@@ -267,8 +244,23 @@
   </form>
 @endsection
 
+@section('head')
+  <link href="/joystick/css/jasny-bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+@endsection
+
 @section('scripts')
   <script src="/joystick/js/jasny-bootstrap.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  <script>
+    /* Summernote */
+    $(document).ready(function() {
+      $('#summernote').summernote({
+        height: 150
+      });
+    });
+  </script>
+
   <script>
     function addFileinput(i) {
       var fileinput =
